@@ -1,0 +1,33 @@
+1. Управление пользователями:
+a) создать пользователя user1, указав shell /bin/bash и создав домашний каталог, используя утилиту useradd;
+#useradd user1 -m -s /bin/bash
+
+b) создать пользователя user2, указав shell /bin/bash и создав домашний каталог, используя утилиту используя утилиту adduser;
+#adduser
+
+c) удалить пользователя user1 вместе с домашним каталогом, используя утилиту userdel;
+#userdel -r user1
+
+d) создать пользователя user1, указав основную группу user2
+#groupadd user2 && useradd user1 && usermod -g user2 user1
+
+d) сменить пароль user1 одного из созданных пользователей, используя passwd
+#passwd user1
+e) сменить пароль user2 одного из созданных пользователей, используя usermod
+#usermod -p $(openssl passwd -6 "some password") user1
+
+2. Управление группами:
+a) создать группы group1, group2 с использованием groupadd;
+#groupadd group1 && groupadd group2
+
+b) добавить user1 в группы group1, group2 разом при помощи одной команды usermod, не меняя его основной группы;
+#usermod -G group1,group2 user1
+
+с) создать группу user1 с GID=1516 и сделать ее основной для пользователя user1
+#groupadd -g 1516 user1 && usermod -g user1 user1
+
+3. Создать пользователя с правами суперпользователя. Сделать так, чтобы sudo не требовал пароль для выполнения команд.
+#useradd superuser -m -s /bin/bash && echo superuser ALL=NOPASSWD: ALL >> /etc/sudoers
+
+4. * Используя дополнительные материалы, выдать одному из созданных пользователей право на выполнение ряда команд, требующих прав суперпользователя (команды выбираем на своё усмотрение).
+#echo user1 ALL=(ALL) NOPASSWD: /usr/bin/iptables >> /etc/sudoers
