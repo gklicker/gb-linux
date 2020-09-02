@@ -1,0 +1,50 @@
+1. Создать репозиторий в GitHub
++OK
+
+2. Установить VirtualBox, установить Ubuntu, сменить сеть на Мостовую, чтобы Виртуальная Машина оказалась в той же сети, где и хост.
++OK
+
+3. Установить утилиты для гостевой ОС вручную и написать команды для
+-- установка недостающих зависимостей gcc, make, perl
+#apt -y install gcc make perl
++OK
+
+4. В командной строке протестировать следующие команды. Иметь понимание, для чего они используются:
+-- man
+-- cd
+-- ls
+-- hostname
+-- whoami
+-- pwd
+-- ip
+-- sudo
+-- reboot
+-- poweroff
+-- apt или apt-get
++OK
+
+5. Настроить ssh соединение:
+-- установить ssh сервер
+-- пользуясь справкой man для штатного файрволла ufw разобраться, как включить файрволл и добавить ssh порт TCP 22 в исключения
+-- самостоятельно найти информацию о том, как работает ssh подключение с помощью ключей и настроить его. Для этого сначала ответьте на наводящие вопросы - Что такое ssh-keygen? Что такое приватная часть SSH ключа и как она используется? Что такое публичная часть SSH ключа и как она используется? Что такое authorized_keys? Как указать ssh клиенту нужный ключ при подключении?
+#apt -y install ufw
+#ufw enable
+#ufw allow ssh
++ssh-keygen - утилита для создания, обслуживание и преобразование аутентификационных ключей.
++authorized_keys - файл, содержащий в себе публичные ключ для аутентификации. (используется для входящих соединения)
++SSH для авторизации может использовать асимметричные ключи шифрования. При такой схеме авторизации закрытый ключ, находиться на хосте, к которому мы подключаемся, а открытый ключ на хосте с которого подключаемся.
+
+6. * https://github.com/mtuktarov/linux_stuff/blob/master/lecture1-hw.MD
+Примечание. Задания 6 дано для тех, кому упражнений 1-5 показалось недостаточно.
+
+#echo Text about invisible characters... > /etc/ssh/banner
+#echo -e "\nMatch User root\n\tBanner none\nMatch User *\n\tBanner /etc/ssh/banner" >> /etc/ssh/sshd_config
+#service sshd reload
+#curl -L http://launchpadlibrarian.net/362557570/landscape-common_18.01-0ubuntu3_amd64.deb | apt -y install
+#apt -y install ansiweather
+#cat /dev/null > /etc/motd
+#echo -e '#!/bin/bash\necho Welcome to $(lsb_release -is) $(lsb_release -rs) \($(uname -o) $(uname -r) $(uname -m)\)' > /etc/update-motd.d/10-uname
+#echo -e '#!/bin/bash\necho\nansiweather -l Moscow -a ture -u metric' > /etc/update-motd.d/60-ansiweather
+#echo -e '#!/bin/bash\necho\nansiweather -l Moscow -a ture -u metric' > /etc/update-motd.d/70-ansiweather
+#echo -e '#!/bin/bash\necho\necho $(apt-get upgrade -s| grep ^Inst | wc -l) packages can be updated.\necho $(apt-get upgrade -s| grep ^Inst |grep Security | wc -l) updates are security updates.\necho' > /etc/update-motd.d/80-updates
+#chmod -R a+x /etc/update-motd.d
