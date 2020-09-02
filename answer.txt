@@ -1,0 +1,19 @@
+1. Прочитать в методическом пособии о сигналах.
+Запустить в одном терминале программу nano. В другом терминале посмотреть PID процесса (используйте ps aux) и остановить с помощью kill, 
+посылая разные типы сигналов (SIGHUP, SIGTERM, SIGSEGV, SIGILL). Чем отличается заверщение программы в зависимости от сигнала?
+
++ SIGHUP, SIGTERM, SIGSEGV могут быть перехвачены и обработаны в приложении, а SIGKILL вызовет немедленное завершение работы процесса. 
+
+2. Самостоятельно найти информацию о том, какой сигнал посылается запущенной программе при нажатии комбинации ctrl+c и ctrl+d. 
+Создайте файл при помощи команды cat > file_name, напишите текст и завершите комбинацией ctrl+d. Какой сигнал передадим процессу?
+
++ Нажатие клавиш ctrl+c как вызов сигнала SIGINT, а ctrl+d символом конца строки.
+
+3. Изменить конфигурационный файл службы SSH: /etc/ssh/sshd_config, отключив аутентификацию по паролю PasswordAuthentication no. 
+Выполните рестарт службы systemctl restart sshd (service sshd restart), верните аутентификацию по паролю,
+выполните reload службы systemctl reload sshd (services sshd reload). В чём различие между действиями restart и reload?
+
+#echo PasswordAuthentication no >> /etc/ssh/sshd_config && systemctl restart sshd
+#head -n -1 /etc/ssh/sshd_config > /etc/ssh/sshd_config && systemctl reload sshd
++ reload вызывает singal 1 (SIGHUP), а restart вызывает singal 9 (SIGKILL)
+restart выполнит полную остановку и запуск по новой, в то время как reload, должен изменить только параметры запуска.
